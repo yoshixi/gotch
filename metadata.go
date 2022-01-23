@@ -37,7 +37,6 @@ func (m *MetaData) setMetadataFromHTMLString(htmlString string) {
 		switch {
 		case tt == html.StartTagToken:
 			token := tokenizer.Token()
-			fmt.Println(token.Data)
 			switch token.Data {
 			case "a":
 
@@ -58,7 +57,6 @@ func (m *MetaData) setMetadataFromHTMLString(htmlString string) {
 				}
 				break
 			case "img":
-				fmt.Printf("%v", m)
 				m.Images++
 			}
 		case tt == html.ErrorToken:
