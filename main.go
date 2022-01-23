@@ -7,11 +7,11 @@ import (
 )
 
 var (
-	usemetadata bool
+	useMetadata bool
 )
 
 func init() {
-	flag.BoolVar(&usemetadata, "metadata", false, "description")
+	flag.BoolVar(&useMetadata, "metadata", false, "description")
 }
 
 func main() {
@@ -34,7 +34,7 @@ func run() int {
 	}
 
 	for _, netURL := range netURLs {
-		if usemetadata {
+		if useMetadata {
 			m, _ := NewMetaData(netURL.url.Hostname())
 			m.ReadAndPrint()
 		} else {
