@@ -21,9 +21,6 @@ func main() {
 func run() int {
 	flag.Parse()
 
-	fmt.Println(flag.Args()) // 残りの引数
-	fmt.Println(usemetadata)
-
 	reqURLs := flag.Args()
 	netURLs := make([]*NetURL, len(reqURLs))
 
@@ -39,9 +36,9 @@ func run() int {
 	for _, netURL := range netURLs {
 		if usemetadata {
 			m, _ := NewMetaData(netURL.url.Hostname())
-			m.Read()
+			m.ReadAndPrint()
 		} else {
-			err := netURL.fetchAndCreateHTML()
+			err := netURL.FetchAndCreateHTML()
 			if err != nil {
 				fmt.Println(err)
 				return 1
