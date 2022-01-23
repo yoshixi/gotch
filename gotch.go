@@ -15,13 +15,13 @@ func init() {
 }
 
 func main() {
-	os.Exit(run())
+	flag.Parse()
+	reqURLs := flag.Args()
+
+	os.Exit(run(reqURLs))
 }
 
-func run() int {
-	flag.Parse()
-
-	reqURLs := flag.Args()
+func run(reqURLs []string) int {
 	netURLs := make([]*NetURL, len(reqURLs))
 
 	for i, reqURL := range reqURLs {
