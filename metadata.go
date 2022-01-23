@@ -10,7 +10,12 @@ import (
 	"time"
 )
 
-const METADATA_DIR = ".metadata"
+const MetadataDir = ".metadata"
+const MetdataOutputTemplate = `site: %s
+num_links: %d
+images: %d
+last_fetch: %s
+`
 
 type MetaData struct {
 	Site      string    `json:"site"`
@@ -35,7 +40,7 @@ func (m *MetaData) setMetadataFromHTMLString(htmlString string) {
 	for {
 		tt := tokenizer.Next()
 		switch {
-		case tt == html.StartTagToken:
+		case tt == html.StartTagToken || tt == html.SelfClosingTagToken:
 			token := tokenizer.Token()
 			switch token.Data {
 			case "a":
@@ -71,22 +76,21 @@ func (m *MetaData) setMetadataFromHTMLString(htmlString string) {
 
 func (m *MetaData) Store() error {
 	data, _ := json.Marshal(m)
-	os.Mkdir(METADATA_DIR, 0777)
-	filePath := fmt.Sprintf("%s/%s", METADATA_DIR, m.Site)
-	return writeFile(string(data), filePath)
+	os.Mkdir(MetadataDir, 0777)
+	return writeFile(string(data), m.getFilePath())
 }
 
 func (m *MetaData) ReadAndPrint() {
-	jsonFromFile, err := os.ReadFile(fmt.Sprintf("%s/%s", METADATA_DIR, m.Site))
+	jsonFromFile, err := os.ReadFile(m.getFilePath())
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 	json.Unmarshal(jsonFromFile, m)
 
-	fmt.Printf("site: %s \n", m.Site)
-	fmt.Printf("num_links: %d \n", m.NumLinks)
-	fmt.Printf("images: %d \n", m.Images)
-	fmt.Printf("last_fetch: %s \n", m.LastFetch.UTC().Format(time.RFC1123))
+	fmt.Printf(MetdataOutputTemplate, m.Site, m.NumLinks, m.Images, m.LastFetch.UTC().Format(time.RFC1123))
+}
 
+func (m *MetaData) getFilePath() string {
+	return fmt.Sprintf("%s/%s.json", MetadataDir, m.Site)
 }
