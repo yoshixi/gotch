@@ -22,6 +22,25 @@ func NewNetURL(reqURL string) (*NetURL, error) {
 	return &NetURL{url: u}, nil
 }
 
+func (p *NetURL) FetchAndCreateHTML() error {
+	htmlString, err := p.fetchHtml()
+	if err != nil {
+		return err
+	}
+
+	err = writeFile(htmlString, fmt.Sprintf("%s.html", p.url.Hostname()))
+	if err != nil {
+		return err
+	}
+
+	err = p.createMetaData(htmlString)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (p *NetURL) fetchHtml() (string, error) {
 	reqURL := p.url.String()
 	res, err := http.Get(reqURL)
@@ -46,18 +65,10 @@ func (p *NetURL) fetchHtml() (string, error) {
 	return html, nil
 }
 
-func (p *NetURL) fetchAndCreateHTML() error {
-	htmlString, err := p.fetchHtml()
-	if err != nil {
-		return err
-	}
-
-	err = writeFile(htmlString, fmt.Sprintf("%s.html", p.url.Hostname()))
-	if err != nil {
-		return err
-	}
-
-	return nil
+func (p *NetURL) createMetaData(htmlString string) error {
+	m, _ := NewMetaData(p.url.Hostname())
+	m.SetMetaData(htmlString)
+	return m.Store()
 }
 
 func writeFile(htmlString string, fileName string) error {

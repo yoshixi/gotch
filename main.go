@@ -4,22 +4,14 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"time"
 )
 
 var (
-	usemetadata bool
+	useMetadata bool
 )
 
-type MetaData struct {
-	Site      string
-	NumLinks  int64
-	images    int64
-	lastFetch time.Time
-}
-
 func init() {
-	flag.BoolVar(&usemetadata, "metadata", false, "description")
+	flag.BoolVar(&useMetadata, "metadata", false, "description")
 }
 
 func main() {
@@ -28,9 +20,6 @@ func main() {
 
 func run() int {
 	flag.Parse()
-
-	fmt.Println(flag.Args()) // 残りの引数
-	fmt.Println(usemetadata)
 
 	reqURLs := flag.Args()
 	netURLs := make([]*NetURL, len(reqURLs))
@@ -45,11 +34,15 @@ func run() int {
 	}
 
 	for _, netURL := range netURLs {
-		fmt.Println("req")
-		err := netURL.fetchAndCreateHTML()
-		if err != nil {
-			fmt.Println(err)
-			return 1
+		if useMetadata {
+			m, _ := NewMetaData(netURL.url.Hostname())
+			m.ReadAndPrint()
+		} else {
+			err := netURL.FetchAndCreateHTML()
+			if err != nil {
+				fmt.Println(err)
+				return 1
+			}
 		}
 	}
 
