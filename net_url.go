@@ -53,7 +53,6 @@ func (p *NetURL) fetchAndCreateHTML() error {
 	}
 
 	err = writeFile(htmlString, fmt.Sprintf("%s.html", p.url.Hostname()))
-
 	if err != nil {
 		return err
 	}
