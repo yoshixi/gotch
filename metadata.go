@@ -13,9 +13,9 @@ import (
 const METADATA_DIR = ".metadata"
 
 type MetaData struct {
-	Site      string     `json:"site"`
-	NumLinks  int        `json:"num_links"`
-	Images    int        `json:"images"`
+	Site      string    `json:"site"`
+	NumLinks  int       `json:"num_links"`
+	Images    int       `json:"images"`
 	LastFetch time.Time `json:"last_fetch"`
 }
 

@@ -23,22 +23,22 @@ func NewNetURL(reqURL string) (*NetURL, error) {
 }
 
 func (p *NetURL) FetchAndCreateHTML() error {
-  htmlString, err := p.fetchHtml()
-  if err != nil {
-    return err
-  }
+	htmlString, err := p.fetchHtml()
+	if err != nil {
+		return err
+	}
 
-  err = writeFile(htmlString, fmt.Sprintf("%s.html", p.url.Hostname()))
-  if err != nil {
-    return err
-  }
+	err = writeFile(htmlString, fmt.Sprintf("%s.html", p.url.Hostname()))
+	if err != nil {
+		return err
+	}
 
-  err = p.createMetaData(htmlString)
-  if err  != nil {
-    return err
-  }
+	err = p.createMetaData(htmlString)
+	if err != nil {
+		return err
+	}
 
-  return nil
+	return nil
 }
 
 func (p *NetURL) fetchHtml() (string, error) {
