@@ -34,6 +34,7 @@ func (p *NetURL) FetchAndCreateHTML() error {
 	}
 
 	err = p.createMetaData(htmlString)
+
 	if err != nil {
 		return err
 	}
@@ -71,14 +72,14 @@ func (p *NetURL) createMetaData(htmlString string) error {
 	return m.Store()
 }
 
-func writeFile(htmlString string, fileName string) error {
+func writeFile(content string, fileName string) error {
 	fp, err := os.Create(fileName)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 	defer fp.Close()
-	fp.WriteString(htmlString)
+	fp.WriteString(content)
 
 	return nil
 }

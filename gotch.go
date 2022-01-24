@@ -15,13 +15,13 @@ func init() {
 }
 
 func main() {
-	os.Exit(run())
+	flag.Parse()
+	reqURLs := flag.Args()
+
+	os.Exit(Run(reqURLs, useMetadata))
 }
 
-func run() int {
-	flag.Parse()
-
-	reqURLs := flag.Args()
+func Run(reqURLs []string, readMetadata bool) int {
 	netURLs := make([]*NetURL, len(reqURLs))
 
 	for i, reqURL := range reqURLs {
@@ -34,7 +34,7 @@ func run() int {
 	}
 
 	for _, netURL := range netURLs {
-		if useMetadata {
+		if readMetadata {
 			m, _ := NewMetaData(netURL.url.Hostname())
 			m.ReadAndPrint()
 		} else {
