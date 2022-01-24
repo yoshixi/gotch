@@ -13,6 +13,7 @@ $ go build -o gotch
 $ ./gotch https://www.google.com https://autify.com
 ```
 
+- With Docker
 ```bash
 $ docker build . -t gotch
 $ docker run --rm -it -p 80:80 gotch
