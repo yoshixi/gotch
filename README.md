@@ -1,3 +1,4 @@
+![gotch test](https://github.com/yoshixj/gotch/actions/workflows/test.yml/badge.svg)
 # ToDo
 - [ ] Archive all assets as well as html so that it can load the web page locally with all assets loading properly.
 - [ ] Use a browser engine such as puppeteer to enable scraping of javascript rendering pages.
