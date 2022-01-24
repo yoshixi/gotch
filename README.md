@@ -2,6 +2,7 @@
 - [ ] Archive all assets as well as html so that it can load the web page locally with all assets loading properly.
 - [ ] Use a browser engine such as puppeteer to enable scraping of javascript rendering pages.
 - [ ] Identifying exception patterns and test them.
+- [ ] Fix the test how to create your data for. https://github.com/yoshixj/gotch/pull/3#discussion_r790359761
 
 # Usage
 
